@@ -1,21 +1,21 @@
 pipeline {
   agent any
   environment {
-    PATH_EXTRA = '/usr/sbin:/usr/bin:/sbin:/bin'
+    DOTNET_PATH = "/usr/local/share/dotnet/dotnet"
   }
 
   stages {
     stage ('NPM install') {
       steps {
-        withEnv(["PATH+EXTRA=${PATH_EXTRA}"]) {
-          sh 'dotnet msbuild -version'
+        withEnv(["PATH=${DOTNET_PATH}:/usr/sbin:/usr/bin:/sbin:/bin:$PATH"]) {
+          sh '$DOTNET_PATH msbuild -version'
         }
       }
     }
     stage ('Run tests') {
       steps {
-        withEnv(["PATH+EXTRA=${PATH_EXTRA}"]) {
-          sh 'dotnet restore HouseRentingSystem.sln'
+        withEnv(["PATH=${DOTNET_PATH}:/usr/sbin:/usr/bin:/sbin:/bin:$PATH"]) {
+          sh '$DOTNET_PATH restore HouseRentingSystem.sln'
         }
       }
     }
