@@ -5,17 +5,24 @@ pipeline {
   }
 
   stages {
-    stage ('NPM install') {
-      steps {
-        withEnv(["PATH=${DOTNET_PATH}:/usr/sbin:/usr/bin:/sbin:/bin:$PATH"]) {
-          sh '$DOTNET_PATH msbuild -version'
-        }
-      }
-    }
-    stage ('Run tests') {
+    stage ('Restore') {
       steps {
         withEnv(["PATH=${DOTNET_PATH}:/usr/sbin:/usr/bin:/sbin:/bin:$PATH"]) {
           sh '$DOTNET_PATH restore HouseRentingSystem.sln'
+        }
+      }
+    }
+    stage ('Build') {
+      steps {
+        withEnv(["PATH=${DOTNET_PATH}:/usr/sbin:/usr/bin:/sbin:/bin:$PATH"]) {
+          sh '$DOTNET_PATH build'
+        }
+      }
+    }
+    stage ('Test') {
+      steps {
+        withEnv(["PATH=${DOTNET_PATH}:/usr/sbin:/usr/bin:/sbin:/bin:$PATH"]) {
+          sh '$DOTNET_PATH test'
         }
       }
     }
