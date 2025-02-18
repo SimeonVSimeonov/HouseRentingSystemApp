@@ -1,5 +1,6 @@
 ﻿namespace HouseRentingSystem.Services
 {
+    // TeST
     public enum HouseSorting
     {
         Newest = 0,
