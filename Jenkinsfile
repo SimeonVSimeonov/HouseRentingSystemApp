@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        PATH_EXTRA = '/usr/sbin:/usr/bin:/sbin:/bin'
+        PATH+EXTRA = '/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
     }
     stages {
         stage('Verify MSBuild') {
