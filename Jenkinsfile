@@ -1,20 +1,23 @@
 pipeline {
-    agent any
-    stages {
-        stage('Verify MSBuild') {
-            steps {
-                withEnv(["PATH=/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PATH"]) {
-                    sh 'dotnet msbuild -version'
-                }
-            }
+  agent any
+  environment {
+    PATH_EXTRA = '/usr/sbin:/usr/bin:/sbin:/bin'
+  }
+
+  stages {
+    stage ('NPM install') {
+      steps {
+        withEnv(["PATH+EXTRA=${PATH_EXTRA}"]) {
+          sh 'dotnet msbuild -version'
         }
-        stage('Build') {
-            steps {
-                 withEnv(["PATH=/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PATH"]) {
-                    sh 'dotnet restore HouseRentingSystem.sln'
-                    sh 'dotnet msbuild HouseRentingSystem.sln /p:Configuration=Release'
-                }
-            }
-        }
+      }
     }
+    stage ('Run tests') {
+      steps {
+        withEnv(["PATH+EXTRA=${PATH_EXTRA}"]) {
+          sh 'dotnet restore HouseRentingSystem.sln'
+        }
+      }
+    }
+  }
 }
